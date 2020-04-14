@@ -1,0 +1,33 @@
+# pic configmap from configmap 
+kubectl create configmap app-config \
+	--from-file=src/main/resources/application.properties
+	
+	
+	kubectl create secret generic db-secret --from-literal=username=sa --from-literal=password=password --from-literal=url='jdbc:h2:tcp://localhost:9092/~./data/remote'
+	
+1.liveness and readiness probes 
+
+1. service node port
+2. url from configmap.	let's see
+3. update
+kubectl rolling-update <my-nginx> --image=nginx:1.9.1	
+
+1. service account ?
+1. multipod design -done
+
+Job to create schema
+
+autoscale ?
+statefulset 
+
+livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 20
+            timeoutSeconds: 2
+            periodSeconds: 8
+            failureThreshold: 1
+			
+			
+rolling update and then demo preration 

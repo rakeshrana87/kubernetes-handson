@@ -1,0 +1,9 @@
+1. docker build  -t springapp -f Dockerfile .
+
+2. docker run --name <name to the container> -it <imagename>
+
+3. docker exec -it a585a0b6d069 bin/sh
+    ~/.docker/config.json
+4. docker tag <source image: tag><targimage:tag>
+5. docker push 12051987/springbootapp:tagname
+6. docker pull 12051987/springbootapp:1.0

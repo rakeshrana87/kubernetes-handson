@@ -1,0 +1,15 @@
+command that run when container starts
+docker run ovveride cmd .  
+sleep 5
+sleep10 - run dont want 10 
+sleep command should come automatically 
+cmd command line parameters get replcaed wheres in entry point it is appended.
+cmd as shell form or json form first should be executable 
+docker ruin --<arg> 
+
+will append in arg form in yaml
+arg will replace docker cmd 
+and for entry point we need to in docker run --entrypoint
+
+Entrypoiny[sleep] ---> command[sleep2.0]
+same thing in yaml

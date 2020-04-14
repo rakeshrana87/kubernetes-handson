@@ -1,0 +1,60 @@
+apiVersion: apps/v1           # API version
+kind: Deployment              # Type of kubernetes resource
+metadata:
+  name: spring-boot-app    # Name of the kubernetes resource
+  labels:                     # Labels that will be applied to this resource
+    app: spring-boot-app
+spec:
+  replicas: 2                 # No. of replicas/pods to run in this deployment
+  selector:
+    matchLabels:              # The deployment applies to any pods matching the specified labels
+      app: spring-boot-app
+  template:                   # Template for creating the pods in this deployment
+    metadata:
+      labels:                 # Labels that will be applied to each Pod in this deployment
+        app: spring-boot-app
+    spec:                     # Spec for the containers that will be run in the Pods
+      containers:
+      - name: spring-boot-app
+        image: 12051987/spring_actuator:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 8080 # The port that the container exposes
+        resources:
+          limits:
+            cpu: 0.2
+            memory: "200Mi"
+        env:                  # Environment variables supplied to the Pod
+        - name: SPRING_DATASOURCE_USERNAME # Name of the environment variable
+          valueFrom:          # Get the value of environment variable from kubernetes secrets
+            secretKeyRef:
+              name: db-secret
+              key: username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: password
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: url
+      - image: 12051987/h2_vol:1.0            # The container image
+        name: h2db
+        ports:
+        - name: h2console
+          containerPort: 8082
+        - name: h2server
+          containerPort: 9092        # The port that the container exposes       
+        volumeMounts:
+        - name: h2db-volume  # This name should match the name specified in `volumes.name`
+          mountPath: /opt/h2-data
+      volumes:                       # A PersistentVolume is mounted as a volume to the Pod  
+      - name: h2db-volume
+        hostPath:
+          # directory location on host
+          path: /tmp
+         # this field is optional
+          type: Directory    
